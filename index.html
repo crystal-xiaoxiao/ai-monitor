@@ -2,69 +2,210 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>AI Native App Monitor</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-body{font-family:-apple-system,sans-serif;background:#f5f5f3;color:#1a1a1a;padding:24px;max-width:1200px;margin:0 auto}
-h1{font-size:20px;font-weight:600;margin-bottom:8px}
-.badge{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:5px 12px;font-size:11px;color:#555;margin-bottom:20px}
-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:20px}
-th{padding:9px 12px;text-align:left;font-size:11px;font-weight:500;color:#888;background:#fafafa;border-bottom:1px solid #e5e7eb;white-space:nowrap}
-td{padding:9px 12px;font-size:12px;border-bottom:1px solid #f0f0f0}
-tr:last-child td{border-bottom:none}
-tr:hover{background:#fafaf8}
-.nm{font-weight:600;font-size:13px}
-.uc{font-size:11px;color:#888;margin-top:1px}
-.up{color:#16a34a}
-.tabs{display:flex;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px;background:#fff}
-.tab{padding:8px 20px;cursor:pointer;font-size:12px;font-weight:500;color:#888;border-right:1px solid #e5e7eb;transition:all .12s}
-.tab:last-child{border-right:none}
-.tab.on{background:#111;color:#fff}
-.sub{font-size:12px;color:#888;margin-bottom:16px}
-</style>
-</head>
-<body>
-<h1>🤖 AI Native App & Foundation Model Monitor</h1>
-<div class="sub">追踪全球 Foundation Models + AI Native Apps &middot; <span style="color:#b45309">⚠ 每日自动更新</span></div>
-<div id="badge" class="badge">⏳ 加载中...</div>
-<div class="tabs">
-  <div class="tab on" id="t-models" onclick="showTab('models')">🧠 Foundation Models</div>
-  <div class="tab" id="t-apps" onclick="showTab('apps')">📱 AI Native Apps</div>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:13px}
+.wrap{max-width:1320px;margin:0 auto;padding:24px 20px}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.hdr-title{font-size:18px;font-weight:600;letter-spacing:-.3px}
+.hdr-sub{font-size:12px;color:#888;margin-top:4px}
+.warn{color:#b45309}
+.badge{font-size:11px;padding:5px 12px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;color:#555;white-space:nowrap}
+.mtx{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.mc{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e5e7eb}
+.mc-l{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.mc-v{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.mc-s{font-size:11px;color:#888;margin-top:4px}
+.up{color:#16a34a}.neu{color:#2563eb}
+.ltabs{display:flex;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;width:fit-content;background:#fff}
+.ltab{font-size:12px;font-weight:500;padding:8px 20px;cursor:pointer;color:#888;border-right:1px solid #e5e7eb;transition:all .12s;white-space:nowrap}
+.ltab:last-child{border-right:none}
+.ltab.on{background:#111;color:#fff}
+.ltab:not(.on):hover{background:#f3f4f6;color:#333}
+.fbar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.fb{font-size:12px;padding:4px 12px;border-radius:99px;border:1px solid #d1d5db;background:#fff;cursor:pointer;color:#555;transition:all .12s}
+.fb.on{background:#111;color:#fff;border-color:#111}
+.fb:not(.on):hover{background:#f3f4f6}
+.ssel{font-size:12px;padding:4px 10px;border:1px solid #d1d5db;border-radius:8px;background:#fff;color:#555;cursor:pointer;margin-left:auto}
+.tw{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:20px;overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 12px;text-align:left;font-size:11px;font-weight:500;color:#888;border-bottom:1px solid #e5e7eb;background:#fafafa;white-space:nowrap}
+tbody tr{border-bottom:1px solid #f0f0f0;transition:background .08s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#fafaf8}
+td{padding:9px 12px;vertical-align:middle}
+.an{font-weight:600;font-size:13px}.uc2{font-size:11px;color:#888;margin-top:1px}
+.num{font-variant-numeric:tabular-nums;font-size:12px}
+.bdg{display:inline-block;font-size:10px;padding:2px 7px;border-radius:99px;font-weight:500;white-space:nowrap}
+.bdg-US{background:#dbeafe;color:#1d4ed8}.bdg-CN{background:#fee2e2;color:#991b1b}.bdg-EU{background:#ede9fe;color:#6d28d9}
+.bdg-coding{background:#dbeafe;color:#1d4ed8}.bdg-search{background:#dcfce7;color:#15803d}
+.bdg-creative{background:#fce7f3;color:#9d174d}.bdg-enterprise{background:#ede9fe;color:#6d28d9}
+.bdg-vertical{background:#fef3c7;color:#92400e}.bdg-consumer{background:#fee2e2;color:#991b1b}.bdg-voice{background:#d1fae5;color:#065f46}
+.mbar{height:4px;border-radius:2px;background:#e5e7eb;overflow:hidden;margin-top:4px;width:60px}
+.mfill{height:100%;border-radius:2px;background:#2563eb}
+.grid2eq{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.pnl{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}
+.pt{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.tleg{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.tleg span{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.tline{width:24px;height:3px;border-radius:2px;display:inline-block}
+.chart-src{font-size:10px;color:#aaa;margin-top:8px}
+.note-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;font-size:12px;color:#78350f;line-height:1.7;margin-top:24px}
+@media(max-width:900px){.mtx{grid-template-columns:repeat(3,1fr)}.grid2eq{grid-template-columns:1fr}}
+@media(max-width:600px){.mtx{grid-template-columns:1fr 1fr}}
+</style></head><body><div class="wrap">
+<div class="hdr"><div>
+<div class="hdr-title">AI Native App &amp; Foundation Model Monitor</div>
+<div class="hdr-sub">追踪全球 Foundation Models + AI Native Apps &middot; <span class="warn">&#9888; 本站每日自动更新，用于追踪AI算力需求</span></div>
+</div><div id="badge" class="badge">&#8987; 加载中...</div></div>
+<div class="mtx" id="mtx"><div style="color:#888;padding:14px">加载数据中...</div></div>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+<div class="ltabs"><div class="ltab on" data-layer="models">&#129952; Foundation Models</div><div class="ltab" data-layer="apps">&#128241; AI Native Apps</div></div>
+<span style="font-size:11px;color:#888">Foundation Models=模型API收入，AI Apps=依赖API的应用ARR</span></div>
+<div class="fbar" id="app-filters" style="display:none">
+<button class="fb on" data-cat="all">全部</button>
+<button class="fb" data-cat="coding">Coding</button>
+<button class="fb" data-cat="search">Search</button>
+<button class="fb" data-cat="creative">Creative</button>
+<button class="fb" data-cat="enterprise">Enterprise</button>
+<button class="fb" data-cat="vertical">Vertical AI</button>
+<button class="fb" data-cat="consumer">Consumer</button>
+<button class="fb" data-cat="voice">Voice</button>
+<select class="ssel" id="app-sort"><option value="m">排序: Momentum</option><option value="arr">排序: ARR</option><option value="arrg">排序: ARR增长率</option><option value="mau">排序: MAU</option><option value="val">排序: 估值</option></select></div>
+<div class="fbar" id="model-filters">
+<button class="fb on" data-region="all">全部</button>
+<button class="fb" data-region="US">&#127482;&#127480; 美国</button>
+<button class="fb" data-region="CN">&#127464;&#127475; 中国</button>
+<button class="fb" data-region="EU">&#127466;&#127482; 欧洲</button>
+<select class="ssel" id="model-sort"><option value="m">排序: Momentum</option><option value="arr">排序: API Revenue</option><option value="arrg">排序: 收入增长率</option><option value="tokM">排序: Token量</option><option value="val">排序: 估值</option></select></div>
+<div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+<div style="font-size:13px;font-weight:600;color:#111;margin-bottom:14px">趋势图（估算，Q1 2023 &#8594; Q1 2026）</div>
+<div class="grid2eq">
+<div class="pnl"><div class="pt">模型收入 + 应用ARR 增长趋势（$B）</div>
+<div class="tleg"><span><span class="tline" style="background:#2563eb"></span>模型收入 ARR</span><span><span class="tline" style="background:#7c3aed"></span>应用收入 ARR</span><span style="color:#aaa">&#9654; YoY 增长率（右轴）</span></div>
+<div style="position:relative;height:260px"><canvas id="revChart"></canvas></div>
+<div class="chart-src">数据来源：The Information、Sacra、Bloomberg</div></div>
+<div class="pnl"><div class="pt">全球 AI Token 用量增长趋势（T / 月）</div>
+<div class="tleg"><span><span class="tline" style="background:#2563eb"></span>美国模型</span><span><span class="tline" style="background:#dc2626"></span>中国模型</span><span style="color:#aaa">&#9654; QoQ 增长率（右轴）</span></div>
+<div style="position:relative;height:260px"><canvas id="tokChart"></canvas></div>
+<div class="chart-src">数据来源：OpenAI API用量公告 (15B tokens/min, 2026.3)</div></div>
 </div>
-<div id="content"></div>
+<div class="note-box">
+<strong>&#9888; 投资免责：</strong>
+本 Dashboard 数据均为公开信息估算，包含不确定性。OpenAI ($852B/$25B ARR)、Anthropic ($380B/$19B ARR) 等估值来自媒体报道；Cursor $50B 尚在 close；Google/xAI/中国模型供应商算力投入持续上升。每日更新使用 Claude API + web search 自动判断，仅供参考。数据来源：The Information、Bloomberg、CNBC、Sacra、36氪、晚点 LatePost、彭博社估算。<strong>本文不构成任何投资建议。</strong>
+</div></div>
 <script>
-let D=null;
-async function init(){
-  try{
-    const r=await fetch("data.json?v="+Date.now());
-    D=await r.json();
-    document.getElementById("badge").textContent="📅 数据截至 "+D.meta.last_updated+" · 每日 UTC 08:00 更新";
-    showTab("models");
-  }catch(e){document.getElementById("content").innerHTML="<p style='color:#dc2626'>加载失败: "+e.message+"</p>";}
-}
-function showTab(t){
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
-  document.getElementById("t-"+t).classList.add("on");
-  if(!D) return;
-  const h=t==="models"?mT(D.models):aT(D.apps);
-  document.getElementById("content").innerHTML=h;
-}
-function fmt(v){return v>=1000?"$"+(v/1000).toFixed(1)+"B":"$"+v+"M"}
+let DATA=null,cRI=null,cTI=null;
+let layer="models",appCat="all",appSort="m",modelRegion="all",modelSort="m";
+const CNC={coding:"Coding",search:"Search",creative:"Creative",enterprise:"Enterprise",vertical:"Vertical AI",consumer:"Consumer",voice:"Voice"};
 function fmau(v){return v>=1?v.toFixed(1)+"M":Math.round(v*1000)+"K"}
-function mT(rows){
-  const s=[...rows].sort((a,b)=>b.arr-a.arr);
-  return "<table><thead><tr><th>Provider</th><th>地区</th><th>API Revenue</th><th>增长率</th><th>Token量/min</th><th>估値 $B</th><th>Momentum</th></tr></thead><tbody>"+
-    s.map(r=>"<tr><td><div class='nm'>"+r.name+"</div><div class='uc'>"+r.uc+"</div></td><td>"+r.region+"</td><td>"+fmt(r.arr)+"</td><td class='up'>+"+r.arrg+"%</td><td>"+r.tokM+"T</td><td>"+(r.val!=null?"$"+r.val+"B":"—")+"</td><td>"+r.m+"/100</td></tr>").join("")+
-    "</tbody></table>";
+function fna(v,s){return v==null?"—":(v>0?"+":"")+v+s}
+async function loadData(){
+  const r=await fetch("data.json?v="+Date.now());
+  DATA=await r.json();
+  document.getElementById("badge").textContent="&#128197; 数据截至 "+DATA.meta.last_updated+" · 每日 UTC 08:00 更新";
+  renderMtx();
+  renderCharts();
+  switchLayer("models");
 }
-function aT(rows){
-  const s=[...rows].sort((a,b)=>b.arr-a.arr);
-  return "<table><thead><tr><th>App</th><th>赛道</th><th>ARR $M</th><th>增长率</th><th>MAU</th><th>Token密度</th><th>OwnModel</th><th>估値 $B</th><th>Momentum</th></tr></thead><tbody>"+
-    s.map(r=>"<tr><td><div class='nm'>"+r.name+"</div><div class='uc'>"+r.uc+"</div></td><td>"+r.cat+"</td><td>$"+r.arr+"</td><td class='up'>+"+r.arrg+"%</td><td>"+fmau(r.mau)+"</td><td>"+r.ti+"</td><td>"+(r.selfModel?"✅":"—")+"</td><td>"+(r.val!=null?"$"+r.val+"B":"—")+"</td><td>"+r.m+"/100</td></tr>").join("")+
-    "</tbody></table>";
+function renderMtx(){
+  const mTot=DATA.models.reduce((s,a)=>s+a.arr,0);
+  const aTot=DATA.apps.reduce((s,a)=>s+a.arr,0);
+  const tokTot=DATA.models.reduce((s,a)=>s+a.tokM,0);
+  const mAvgG=Math.round(DATA.models.filter(a=>a.arrg).reduce((s,a)=>s+a.arrg,0)/DATA.models.filter(a=>a.arrg).length);
+  const aAvgG=Math.round(DATA.apps.reduce((s,a)=>s+a.arrg,0)/DATA.apps.length);
+  document.getElementById("mtx").innerHTML=
+    "<div class=\"mc\"><div class=\"mc-l\">模型收入 Est. Revenue</div><div class=\"mc-v neu\">$"+(mTot/1000).toFixed(1)+"B</div><div class=\"mc-s\">"+DATA.models.length+"家顶级模型供应商</div></div>"+
+    "<div class=\"mc\"><div class=\"mc-l\">App收入 Est. ARR</div><div class=\"mc-v\" style=\"color:#6d28d9\">$"+(aTot/1000).toFixed(1)+"B</div><div class=\"mc-s\">"+DATA.apps.length+"个AI native apps</div></div>"+
+    "<div class=\"mc\"><div class=\"mc-l\">模型总 Token量</div><div class=\"mc-v\">~"+Math.round(tokTot)+"T</div><div class=\"mc-s\">万亿tokens/月（估算）</div></div>"+
+    "<div class=\"mc\"><div class=\"mc-l\">模型收入增长率</div><div class=\"mc-v up\">+"+mAvgG+"%</div><div class=\"mc-s\">API Revenue YoY</div></div>"+
+    "<div class=\"mc\"><div class=\"mc-l\">App收入增长率</div><div class=\"mc-v up\">+"+aAvgG+"%</div><div class=\"mc-s\">ARR YoY</div></div>";
 }
-init();
-</script>
-</body>
-</html>
+function renderCharts(){
+  const QTR=["Q1'23","Q2'23","Q3'23","Q4'23","Q1'24","Q2'24","Q3'24","Q4'24","Q1'25","Q2'25","Q3'25","Q4'25","Q1'26"];
+  const mARR=[0.7,1.2,1.9,2.8,4.5,7.0,10.0,14.5,21.0,30.0,38.5,47.0,48.5];
+  const aARR=[0.06,0.15,0.28,0.6,1.1,2.0,3.4,5.2,7.8,10.5,13.5,17.0,18.5];
+  const total=mARR.map((v,i)=>+(v+aARR[i]).toFixed(1));
+  const yoy=total.map((v,i)=>i<4?null:Math.round((v/total[i-4]-1)*100));
+  const tokUS=[0.4,0.8,1.4,2.4,4.0,6.5,10.0,15.0,22.0,30.0,38.0,45.0,49.0];
+  const tokCN=[0.02,0.05,0.12,0.25,0.6,1.2,2.2,3.8,6.0,8.5,11.5,14.5,17.0];
+  const tokTot=tokUS.map((v,i)=>+(v+tokCN[i]).toFixed(1));
+  const tokQoQ=tokTot.map((v,i)=>i===0?null:Math.round((v/tokTot[i-1]-1)*100));
+  const gc="rgba(0,0,0,.04)",tc="#aaa",base={responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false}};
+  if(cRI){cRI.destroy();} 
+  cRI=new Chart(document.getElementById("revChart"),{data:{labels:QTR,datasets:[
+    {type:"line",data:mARR,yAxisID:"y",borderColor:"#2563eb",backgroundColor:"rgba(37,99,235,.08)",fill:true,tension:.3,pointRadius:3,borderWidth:2,label:"模型收入"},
+    {type:"line",data:aARR,yAxisID:"y",borderColor:"#7c3aed",backgroundColor:"rgba(124,58,237,.07)",fill:true,tension:.3,pointRadius:3,borderWidth:2,label:"应用收入"},
+    {type:"bar",data:yoy,yAxisID:"y2",backgroundColor:"rgba(0,0,0,.07)",borderRadius:3,barPercentage:.45,label:"YoY%"}
+  ]},options:{...base,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+    if(c.dataset.yAxisID==="y2") return c.parsed.y!=null?" YoY: "+c.parsed.y+"%":null;
+    return " "+c.dataset.label+": $"+c.parsed.y.toFixed(1)+"B";
+  }}}},scales:{x:{grid:{color:gc},ticks:{font:{size:10},color:tc}},
+    y:{position:"left",grid:{color:gc},ticks:{font:{size:10},color:tc,callback:v=>"$"+v+"B"},min:0},
+    y2:{position:"right",grid:{display:false},ticks:{font:{size:10},color:"#ccc",callback:v=>v!=null?v+"%":""},min:0,max:600}}}});
+  if(cTI){cTI.destroy();}
+  cTI=new Chart(document.getElementById("tokChart"),{data:{labels:QTR,datasets:[
+    {type:"line",data:tokUS,yAxisID:"y",borderColor:"#2563eb",backgroundColor:"rgba(37,99,235,.08)",fill:true,tension:.3,pointRadius:3,borderWidth:2,label:"美国"},
+    {type:"line",data:tokCN,yAxisID:"y",borderColor:"#dc2626",backgroundColor:"rgba(220,38,38,.07)",fill:true,tension:.3,pointRadius:3,borderWidth:2,label:"中国"},
+    {type:"bar",data:tokQoQ,yAxisID:"y2",backgroundColor:"rgba(0,0,0,.07)",borderRadius:3,barPercentage:.45,label:"QoQ%"}
+  ]},options:{...base,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+    if(c.dataset.yAxisID==="y2") return c.parsed.y!=null?" QoQ: "+c.parsed.y+"%":null;
+    return " "+c.dataset.label+": "+c.parsed.y.toFixed(1)+"T/月";
+  }}}},scales:{x:{grid:{color:gc},ticks:{font:{size:10},color:tc}},
+    y:{position:"left",grid:{color:gc},ticks:{font:{size:10},color:tc,callback:v=>v+"T"},min:0},
+    y2:{position:"right",grid:{display:false},ticks:{font:{size:10},color:"#ccc",callback:v=>v!=null?v+"%":""},min:0,max:100}}}});
+}
+function renderModelTable(region,sk){
+  document.getElementById("thead").innerHTML="<tr><th style=\"min-width:165px\">Provider</th><th style=\"min-width:52px\">地区</th><th style=\"min-width:75px;text-align:right\">API Rev</th><th style=\"min-width:68px;text-align:right\">收入增长率</th><th style=\"min-width:82px;text-align:right\">Token T/月</th><th style=\"min-width:72px;text-align:right\">Token增长率</th><th style=\"min-width:85px;text-align:right\">年推训练 T</th><th style=\"min-width:115px;text-align:right\">训练量 &times; 次数/年</th><th style=\"min-width:68px;text-align:right\">估值 $B</th><th style=\"min-width:80px\">Momentum</th></tr>";
+  let d=region==="all"?DATA.models:DATA.models.filter(a=>a.region===region);
+  d=[...d].sort((a,b)=>{const av=a[sk]??-Infinity,bv=b[sk]??-Infinity;return bv-av;});
+  document.getElementById("tbody").innerHTML=d.map(a=>{
+    const ann=Math.round(a.tokM*12);
+    const af=a.arr>=1000?"$"+(a.arr/1000).toFixed(1)+"B":"$"+a.arr+"M";
+    return "<tr><td><div class=\"an\">"+a.name+"</div><div class=\"uc2\">"+a.uc+"</div></td>"+
+      "<td><span class=\"bdg bdg-"+a.region+"\">"+a.region+"</span></td>"+
+      "<td style=\"text-align:right\" class=\"num\">"+af+"</td>"+
+      "<td style=\"text-align:right\" class=\"num up\">"+fna(a.arrg,"%")+"</td>"+
+      "<td style=\"text-align:right\" class=\"num\"><strong>"+a.tokM+"T</strong></td>"+
+      "<td style=\"text-align:right\" class=\"num up\">"+fna(a.tokG,"%")+"</td>"+
+      "<td style=\"text-align:right\" class=\"num\">"+ann+"T</td>"+
+      "<td style=\"text-align:right\" class=\"num\">"+a.trainPerRun+"T &times; "+a.runsPerYear+"</td>"+
+      "<td style=\"text-align:right\" class=\"num\">"+(a.val!=null?"$"+a.val+"B":"—")+"</td>"+
+      "<td class=\"num\">"+a.m+"<div class=\"mbar\"><div class=\"mfill\" style=\"width:"+a.m+"%\"></div></div></td></tr>";
+  }).join("");}
+function renderAppTable(cat,sk){
+  document.getElementById("thead").innerHTML="<tr><th style=\"min-width:155px\">App</th><th style=\"min-width:82px\">赛道</th><th style=\"min-width:62px;text-align:right\">ARR $M</th><th style=\"min-width:72px;text-align:right\">ARR YoY</th><th style=\"min-width:62px;text-align:right\">MAU</th><th style=\"min-width:68px;text-align:right\">MAU增长率</th><th style=\"min-width:82px\">Token密度</th><th style=\"min-width:75px\">自有模型</th><th style=\"min-width:65px;text-align:right\">估值 $B</th><th style=\"min-width:80px\">Momentum</th></tr>";
+  let d=cat==="all"?DATA.apps:DATA.apps.filter(a=>a.cat===cat);
+  d=[...d].sort((a,b)=>b[sk]-a[sk]);
+  const TL={ultra:"&#9888;&#65039; Ultra",high:"&#9888; High",med:"&#9728; Medium",low:"&#128712; Low"};
+  document.getElementById("tbody").innerHTML=d.map(a=>
+    "<tr><td><div class=\"an\">"+a.name+"</div><div class=\"uc2\">"+a.uc+"</div></td>"+
+    "<td><span class=\"bdg bdg-"+a.cat+"\">"+CNC[a.cat]+"</span></td>"+
+    "<td style=\"text-align:right\" class=\"num\">$"+a.arr+"</td>"+
+    "<td style=\"text-align:right\" class=\"num up\">+"+a.arrg+"%</td>"+
+    "<td style=\"text-align:right\" class=\"num\">"+fmau(a.mau)+"</td>"+
+    "<td style=\"text-align:right\" class=\"num up\">+"+a.maug+"%</td>"+
+    "<td>"+(TL[a.ti]||a.ti)+"</td>"+
+    "<td style=\"font-size:11px\">"+(a.selfModel?"<span style=\"color:#16a34a;font-weight:600\">&#10003; 自有</span>":"<span style=\"color:#888\">API依赖</span>")+"</td>"+
+    "<td style=\"text-align:right\" class=\"num\">$"+a.val+"B</td>"+
+    "<td class=\"num\">"+a.m+"<div class=\"mbar\"><div class=\"mfill\" style=\"width:"+a.m+"%\"></div></div></td></tr>"
+  ).join("");}
+function switchLayer(l){
+  layer=l;
+  document.querySelectorAll(".ltab").forEach(t=>t.classList.toggle("on",t.dataset.layer===l));
+  const isM=l==="models";
+  document.getElementById("app-filters").style.display=isM?"none":"flex";
+  document.getElementById("model-filters").style.display=isM?"flex":"none";
+  if(isM) renderModelTable(modelRegion,modelSort);
+  else renderAppTable(appCat,appSort);
+}
+document.querySelectorAll(".ltab").forEach(t=>t.addEventListener("click",()=>switchLayer(t.dataset.layer)));
+document.querySelectorAll("#app-filters .fb").forEach(b=>b.addEventListener("click",()=>{appCat=b.dataset.cat;document.querySelectorAll("#app-filters .fb").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderAppTable(appCat,appSort);}));
+document.getElementById("app-sort").addEventListener("change",e=>{appSort=e.target.value;renderAppTable(appCat,appSort);});
+document.querySelectorAll("#model-filters .fb").forEach(b=>b.addEventListener("click",()=>{modelRegion=b.dataset.region;document.querySelectorAll("#model-filters .fb").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderModelTable(modelRegion,modelSort);}));
+document.getElementById("model-sort").addEventListener("change",e=>{modelSort=e.target.value;renderModelTable(modelRegion,modelSort);});
+loadData().catch(err=>{document.getElementById("mtx").innerHTML="<div style=\"color:#dc2626;padding:16px\">加载失败: "+err.message+"</div>";});
+</script></body></html>
