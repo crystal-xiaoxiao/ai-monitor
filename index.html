@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Native App Monitor</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+body{font-family:-apple-system,sans-serif;background:#f5f5f3;color:#1a1a1a;padding:24px;max-width:1200px;margin:0 auto}
+h1{font-size:20px;font-weight:600;margin-bottom:8px}
+.badge{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:5px 12px;font-size:11px;color:#555;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:20px}
+th{padding:9px 12px;text-align:left;font-size:11px;font-weight:500;color:#888;background:#fafafa;border-bottom:1px solid #e5e7eb;white-space:nowrap}
+td{padding:9px 12px;font-size:12px;border-bottom:1px solid #f0f0f0}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#fafaf8}
+.nm{font-weight:600;font-size:13px}
+.uc{font-size:11px;color:#888;margin-top:1px}
+.up{color:#16a34a}
+.tabs{display:flex;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px;background:#fff}
+.tab{padding:8px 20px;cursor:pointer;font-size:12px;font-weight:500;color:#888;border-right:1px solid #e5e7eb;transition:all .12s}
+.tab:last-child{border-right:none}
+.tab.on{background:#111;color:#fff}
+.sub{font-size:12px;color:#888;margin-bottom:16px}
+</style>
+</head>
+<body>
+<h1>🤖 AI Native App & Foundation Model Monitor</h1>
+<div class="sub">追踪全球 Foundation Models + AI Native Apps &middot; <span style="color:#b45309">⚠ 每日自动更新</span></div>
+<div id="badge" class="badge">⏳ 加载中...</div>
+<div class="tabs">
+  <div class="tab on" id="t-models" onclick="showTab('models')">🧠 Foundation Models</div>
+  <div class="tab" id="t-apps" onclick="showTab('apps')">📱 AI Native Apps</div>
+</div>
+<div id="content"></div>
+<script>
+let D=null;
+async function init(){
+  try{
+    const r=await fetch("data.json?v="+Date.now());
+    D=await r.json();
+    document.getElementById("badge").textContent="📅 数据截至 "+D.meta.last_updated+" · 每日 UTC 08:00 更新";
+    showTab("models");
+  }catch(e){document.getElementById("content").innerHTML="<p style='color:#dc2626'>加载失败: "+e.message+"</p>";}
+}
+function showTab(t){
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.getElementById("t-"+t).classList.add("on");
+  if(!D) return;
+  const h=t==="models"?mT(D.models):aT(D.apps);
+  document.getElementById("content").innerHTML=h;
+}
+function fmt(v){return v>=1000?"$"+(v/1000).toFixed(1)+"B":"$"+v+"M"}
+function fmau(v){return v>=1?v.toFixed(1)+"M":Math.round(v*1000)+"K"}
+function mT(rows){
+  const s=[...rows].sort((a,b)=>b.arr-a.arr);
+  return "<table><thead><tr><th>Provider</th><th>地区</th><th>API Revenue</th><th>增长率</th><th>Token量/min</th><th>估値 $B</th><th>Momentum</th></tr></thead><tbody>"+
+    s.map(r=>"<tr><td><div class='nm'>"+r.name+"</div><div class='uc'>"+r.uc+"</div></td><td>"+r.region+"</td><td>"+fmt(r.arr)+"</td><td class='up'>+"+r.arrg+"%</td><td>"+r.tokM+"T</td><td>"+(r.val!=null?"$"+r.val+"B":"—")+"</td><td>"+r.m+"/100</td></tr>").join("")+
+    "</tbody></table>";
+}
+function aT(rows){
+  const s=[...rows].sort((a,b)=>b.arr-a.arr);
+  return "<table><thead><tr><th>App</th><th>赛道</th><th>ARR $M</th><th>增长率</th><th>MAU</th><th>Token密度</th><th>OwnModel</th><th>估値 $B</th><th>Momentum</th></tr></thead><tbody>"+
+    s.map(r=>"<tr><td><div class='nm'>"+r.name+"</div><div class='uc'>"+r.uc+"</div></td><td>"+r.cat+"</td><td>$"+r.arr+"</td><td class='up'>+"+r.arrg+"%</td><td>"+fmau(r.mau)+"</td><td>"+r.ti+"</td><td>"+(r.selfModel?"✅":"—")+"</td><td>"+(r.val!=null?"$"+r.val+"B":"—")+"</td><td>"+r.m+"/100</td></tr>").join("")+
+    "</tbody></table>";
+}
+init();
+</script>
+</body>
+</html>
