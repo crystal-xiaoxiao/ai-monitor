@@ -2,7 +2,7 @@
   "meta": {
     "last_updated": "2026-04-17",
     "next_update": "2026-04-18",
-    "update_notes": "2026-04-17: Auto-update ran, no changes (API error or no new data)"
+    "update_notes": "2026-04-17: Auto-update error: Expecting value: line 1 column 1 (char 0)"
   },
   "models": [
     {
