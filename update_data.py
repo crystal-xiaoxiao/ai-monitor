@@ -58,7 +58,7 @@ def call_claude(today_str: str) -> dict:
     # Correct usage: client.messages.create + extra_headers for web-search beta
     response = client.messages.create(
         model=MODEL,
-        max_tokens=2000,
+        max_tokens=8000,
         system=SYSTEM_PROMPT,
         tools=[{"type": "web_search_20250305", "name": "web_search"}],
         messages=[{"role": "user", "content": USER_PROMPT.format(today=today_str)}],
