@@ -1,15 +1,15 @@
 {
   "meta": {
-    "last_updated": "2026-04-17",
-    "next_update": "2026-04-18",
-    "update_notes": "2026-04-17: Major Q1 2026 updates: OpenAI $852B val, Anthropic $380B/$30B ARR, xAI $20B raise, Harvey $11B, Cursor $50B talks, Perplexity $500M ARR, Suno $300M ARR, Luma $4B."
+    "last_updated": "2026-04-20",
+    "next_update": "2026-04-21",
+    "update_notes": "2026-04-20: OpenAI $122B/$852B (Mar 31); Anthropic $30B/$380B (Feb 12); xAI $20B/$230B (Jan 6); Cursor $2B ARR/$50B talks; Harvey $11B; ElevenLabs $11B/$330M ARR; Suno $300M ARR; Glean $200M ARR; Sierra $150M ARR; Mistral $830M debt"
   },
   "models": [
     {
       "name": "OpenAI",
       "uc": "GPT-4o, o1, o3, Codex, Sora, DALL-E",
       "region": "US",
-      "arr": 25000,
+      "arr": 24000,
       "arrg": 300,
       "tokM": 22,
       "tokG": 200,
@@ -157,13 +157,13 @@
       "uc": "AI搜索引擎",
       "cat": "search",
       "stage": "growth",
-      "arr": 500,
+      "arr": 200,
       "arrg": 400,
       "mau": 30,
       "maug": 250,
       "ti": "high",
       "biz": "B2C+B2B",
-      "val": 21.21,
+      "val": 20,
       "m": 90,
       "selfModel": false
     },
@@ -187,13 +187,13 @@
       "uc": "语音合成API",
       "cat": "voice",
       "stage": "growth",
-      "arr": 100,
+      "arr": 330,
       "arrg": 250,
       "mau": 1.2,
       "maug": 200,
       "ti": "med",
       "biz": "B2B+B2C",
-      "val": 3,
+      "val": 11,
       "m": 85,
       "selfModel": true
     },
@@ -247,7 +247,7 @@
       "uc": "企业AI知识搜索",
       "cat": "enterprise",
       "stage": "scale",
-      "arr": 250,
+      "arr": 200,
       "arrg": 150,
       "mau": 0.5,
       "maug": 120,
