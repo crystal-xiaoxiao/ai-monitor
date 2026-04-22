@@ -1,15 +1,15 @@
 {
   "meta": {
-    "last_updated": "2026-04-21",
-    "next_update": "2026-04-22",
-    "update_notes": "2026-04-21: Major April 2026 updates: Anthropic hits $30B ARR (surpasses OpenAI); OpenAI at $24B ARR/$852B val; Cursor raises at $50B; Perplexity ARR hits $450M; Harvey $11B; Runway $5.3B; Luma $4B."
+    "last_updated": "2026-04-22",
+    "next_update": "2026-04-23",
+    "update_notes": "2026-04-22: Major updates: Anthropic ARR $30B, OpenAI val $852B, xAI $20B Series E, Mistral $830M debt, Cursor $2B ARR/$50B val talks, Perplexity $500M ARR, Harvey $11B val, Glean $200M ARR, Runway $5.3B val."
   },
   "models": [
     {
       "name": "OpenAI",
       "uc": "GPT-4o, o1, o3, Codex, Sora, DALL-E",
       "region": "US",
-      "arr": 24000,
+      "arr": 25000,
       "arrg": 300,
       "tokM": 22,
       "tokG": 200,
@@ -106,7 +106,7 @@
       "tokG": 180,
       "trainPerRun": 5,
       "runsPerYear": 2,
-      "val": 14,
+      "val": 13.67,
       "m": 68
     },
     {
@@ -157,13 +157,13 @@
       "uc": "AI搜索引擎",
       "cat": "search",
       "stage": "growth",
-      "arr": 450,
+      "arr": 500,
       "arrg": 400,
-      "mau": 30,
+      "mau": 100,
       "maug": 250,
       "ti": "high",
       "biz": "B2C+B2B",
-      "val": 21.2,
+      "val": 21.21,
       "m": 90,
       "selfModel": false
     },
@@ -202,7 +202,7 @@
       "uc": "AI图像生成",
       "cat": "creative",
       "stage": "scale",
-      "arr": 200,
+      "arr": 500,
       "arrg": 40,
       "mau": 18,
       "maug": 20,
@@ -247,7 +247,7 @@
       "uc": "企业AI知识搜索",
       "cat": "enterprise",
       "stage": "scale",
-      "arr": 100,
+      "arr": 200,
       "arrg": 150,
       "mau": 0.5,
       "maug": 120,
