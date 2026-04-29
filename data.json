@@ -1,8 +1,8 @@
 {
   "meta": {
-    "last_updated": "2026-04-28",
-    "next_update": "2026-04-29",
-    "update_notes": "2026-04-28: Major Q1-Apr 2026 updates: Anthropic $30B ARR/$380B val; OpenAI $25B ARR; xAI $20B raise; Mistral $830M debt; ElevenLabs $500M/11B; Cursor $2B ARR/$50B raise talks; Perplexity $500M ARR; Harvey $11B val."
+    "last_updated": "2026-04-29",
+    "next_update": "2026-04-30",
+    "update_notes": "2026-04-29: Cohere/Aleph Alpha $20B deal (Axios Apr 24), Cognition eyes $25B (Bloomberg Apr 24), xAI-Anysphere $60B acquisition option (Apr 21). Multiple revenue milestones confirmed."
   },
   "models": [
     {
@@ -54,7 +54,7 @@
       "tokG": null,
       "trainPerRun": 15,
       "runsPerYear": 3,
-      "val": 230,
+      "val": 80,
       "m": 80
     },
     {
@@ -106,7 +106,7 @@
       "tokG": 180,
       "trainPerRun": 5,
       "runsPerYear": 2,
-      "val": 13.67,
+      "val": 13.7,
       "m": 68
     },
     {
@@ -119,7 +119,7 @@
       "tokG": 130,
       "trainPerRun": 3,
       "runsPerYear": 2,
-      "val": 7,
+      "val": 20,
       "m": 60
     },
     {
@@ -358,7 +358,7 @@
       "maug": 400,
       "ti": "ultra",
       "biz": "B2B",
-      "val": 10.2,
+      "val": 25,
       "m": 88,
       "selfModel": false
     },
