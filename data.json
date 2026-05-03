@@ -1,15 +1,15 @@
 {
   "meta": {
-    "last_updated": "2026-04-29",
-    "next_update": "2026-04-30",
-    "update_notes": "2026-04-29: Cohere/Aleph Alpha $20B deal (Axios Apr 24), Cognition eyes $25B (Bloomberg Apr 24), xAI-Anysphere $60B acquisition option (Apr 21). Multiple revenue milestones confirmed."
+    "last_updated": "2026-05-03",
+    "next_update": "2026-05-04",
+    "update_notes": "2026-05-03: Anthropic in talks at $900B val / $30B ARR; OpenAI $852B / $24B ARR; xAI $230B Series E; Mistral $830M debt; Cursor $50B talks / $2B ARR; ElevenLabs $11B / $330M ARR; Harvey $11B; Cognition $25B talks"
   },
   "models": [
     {
       "name": "OpenAI",
       "uc": "GPT-4o, o1, o3, Codex, Sora, DALL-E",
       "region": "US",
-      "arr": 25000,
+      "arr": 24000,
       "arrg": 300,
       "tokM": 22,
       "tokG": 200,
@@ -28,7 +28,7 @@
       "tokG": 300,
       "trainPerRun": 12,
       "runsPerYear": 3,
-      "val": 380,
+      "val": 900,
       "m": 98
     },
     {
@@ -54,7 +54,7 @@
       "tokG": null,
       "trainPerRun": 15,
       "runsPerYear": 3,
-      "val": 80,
+      "val": 230,
       "m": 80
     },
     {
@@ -106,7 +106,7 @@
       "tokG": 180,
       "trainPerRun": 5,
       "runsPerYear": 2,
-      "val": 13.7,
+      "val": 11,
       "m": 68
     },
     {
@@ -157,7 +157,7 @@
       "uc": "AI搜索引擎",
       "cat": "search",
       "stage": "growth",
-      "arr": 500,
+      "arr": 200,
       "arrg": 400,
       "mau": 100,
       "maug": 250,
