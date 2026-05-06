@@ -1,8 +1,8 @@
 {
   "meta": {
-    "last_updated": "2026-05-03",
-    "next_update": "2026-05-04",
-    "update_notes": "2026-05-03: Anthropic in talks at $900B val / $30B ARR; OpenAI $852B / $24B ARR; xAI $230B Series E; Mistral $830M debt; Cursor $50B talks / $2B ARR; ElevenLabs $11B / $330M ARR; Harvey $11B; Cognition $25B talks"
+    "last_updated": "2026-05-06",
+    "next_update": "2026-05-07",
+    "update_notes": "2026-05-06: Anthropic $30B ARR + $900B val round; OpenAI $24B ARR/$852B val; xAI $230B val; Cursor $2B ARR/$50B val; ElevenLabs $500M ARR/$11B; Harvey $11B; Glean $100M ARR/$7.2B; Runway $5.3B; Suno $2.45B; Luma $4B; Cognition $25B talks"
   },
   "models": [
     {
@@ -187,7 +187,7 @@
       "uc": "语音合成API",
       "cat": "voice",
       "stage": "growth",
-      "arr": 330,
+      "arr": 500,
       "arrg": 250,
       "mau": 1.2,
       "maug": 200,
@@ -247,7 +247,7 @@
       "uc": "企业AI知识搜索",
       "cat": "enterprise",
       "stage": "scale",
-      "arr": 200,
+      "arr": 100,
       "arrg": 150,
       "mau": 0.5,
       "maug": 120,
@@ -358,7 +358,7 @@
       "maug": 400,
       "ti": "ultra",
       "biz": "B2B",
-      "val": 25,
+      "val": 10.2,
       "m": 88,
       "selfModel": false
     },
